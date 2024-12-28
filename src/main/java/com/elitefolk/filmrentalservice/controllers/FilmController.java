@@ -1,5 +1,6 @@
 package com.elitefolk.filmrentalservice.controllers;
 
+import com.elitefolk.filmrentalservice.dtos.FilmDto;
 import com.elitefolk.filmrentalservice.models.Film;
 import com.elitefolk.filmrentalservice.services.FilmService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +21,9 @@ public class FilmController {
     }
 
     @GetMapping
-    public List<Film> getFilms() {
+    public List<FilmDto> getFilms() {
         List<Film> films = filmService.getAllFilms();
-        return films;
+        return FilmDto.fromFilmsToDtoList(films);
     }
 
     @GetMapping("/rating/{rating}")
@@ -34,6 +35,4 @@ public class FilmController {
     public Film getFilmById(@PathVariable Short id) {
         return filmService.getFilmById(id);
     }
-
-
 }

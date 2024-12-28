@@ -4,18 +4,19 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "language")
-public class Language {
+@Entity(name = "actor")
+public class Actor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "language_id")
-    private Byte id;
-    private String name;
-    private Date lastUpdate;
+    @Column(name = "actor_id")
+    private Short id;
+    private String firstName;
+    private String lastName;
+    @CreationTimestamp
+    private java.sql.Timestamp lastUpdate;
 }
