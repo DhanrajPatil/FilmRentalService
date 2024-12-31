@@ -1,11 +1,13 @@
 package com.elitefolk.filmrentalservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.sql.Timestamp;
+import java.util.*;
 
 @Data
 @AllArgsConstructor
@@ -38,5 +40,20 @@ public class Film {
     private Rating rating;
 
     private String specialFeatures;
-    private Date lastUpdate;
+    private Timestamp lastUpdate;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "film_actor",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id"))
+    @JsonIgnoreProperties({ "movies" })
+    private List<Actor> actors = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "film_category",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    @JsonIgnoreProperties({ "films" })
+    private List<Category> categories = new ArrayList<>();
+
 }

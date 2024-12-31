@@ -42,7 +42,7 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
-    public Actor updateActor(Short id, Actor actor) {
+    public Actor patchActor(Short id, Actor actor) {
         Actor act = this.actorRepository.findById(id)
                 .orElseThrow(() -> new ActorNotFoundException(actor.getId()));
         if(actor.getFirstName() != null) {

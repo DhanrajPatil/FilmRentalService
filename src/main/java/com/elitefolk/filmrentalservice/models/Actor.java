@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,6 +20,9 @@ public class Actor {
     private Short id;
     private String firstName;
     private String lastName;
+
+    @ManyToMany(mappedBy = "actors", fetch = FetchType.LAZY)
+    private List<Film> movies = new ArrayList<>();
     @CreationTimestamp
     private java.sql.Timestamp lastUpdate;
 }

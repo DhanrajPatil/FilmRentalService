@@ -10,7 +10,7 @@ public interface ActorService {
     List<Actor> getActorsByLastName(String lastName);
     Actor getActorById(Short id);
     Actor saveActor(Actor actor);
-    Actor updateActor(Short id, Actor actor);
+    Actor patchActor(Short id, Actor actor);
     Actor replaceActor(Short id, Actor actor);
     void deleteActor(Short id);
     void deleteActor(Actor actor);

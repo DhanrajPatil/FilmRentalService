@@ -2,6 +2,9 @@ package com.elitefolk.filmrentalservice.services;
 
 import com.elitefolk.filmrentalservice.models.Film;
 import com.elitefolk.filmrentalservice.repositories.FilmRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +18,8 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public List<Film> getAllFilms() {
-        List<Film> films = filmRepository.findAll();
+    public Page<Film> getAllFilms(Pageable pageable) {
+        Page<Film> films = filmRepository.findAll(pageable);
         return films;
     }
 

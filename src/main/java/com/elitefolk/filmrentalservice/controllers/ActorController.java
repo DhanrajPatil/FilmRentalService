@@ -23,6 +23,12 @@ public class ActorController {
         return ActorDto.fromActors(actors);
     }
 
+    @GetMapping("/{id}")
+    public ActorDto getActorById(@PathVariable Short id) {
+        Actor actor = actorService.getActorById(id);
+        return ActorDto.fromActor(actor);
+    }
+
     @PostMapping
     public ActorDto saveActor(@RequestBody ActorDto actorDto) {
         Actor actor = actorDto.toActor();
@@ -38,6 +44,6 @@ public class ActorController {
     @PatchMapping("/{id}")
     public ActorDto updateActor(@PathVariable Short id, @RequestBody ActorDto actorDto) {
         Actor actor = actorDto.toActor();
-        return ActorDto.fromActor(actorService.updateActor(id, actor));
+        return ActorDto.fromActor(actorService.patchActor(id, actor));
     }
 }
