@@ -1,5 +1,6 @@
 package com.elitefolk.filmrentalservice.services;
 
+import com.elitefolk.filmrentalservice.dtos.BasicFilmDto;
 import com.elitefolk.filmrentalservice.exceptions.FilmNotFoundException;
 import com.elitefolk.filmrentalservice.models.Film;
 import com.elitefolk.filmrentalservice.models.Language;
@@ -56,7 +57,7 @@ public class FilmServiceImpl implements FilmService {
     @Transactional
     public Film updateFilm(Short id, Film film) {
         Film existingFilm = filmRepository.findById(id)
-                .orElseThrow(() -> new FilmNotFoundException("Film not found with id " + id));
+                .orElseThrow(() -> new FilmNotFoundException("Film not found with id " + id, BasicFilmDto.fromFilm(film)));
         film.setId(existingFilm.getId());
         return getFilm(film, languageService, actorService, categoryService, filmRepository);
     }
@@ -71,7 +72,7 @@ public class FilmServiceImpl implements FilmService {
     @Transactional
     public Film patchFilm(Short id, Film film) {
         Film existingFilm = filmRepository.findById(id)
-                .orElseThrow(() -> new FilmNotFoundException("Film not found with id " + id));
+                .orElseThrow(() -> new FilmNotFoundException("Film not found with id " + id, BasicFilmDto.fromFilm(film)));
         if(film.getTitle() != null) {
             existingFilm.setTitle(film.getTitle());
         }

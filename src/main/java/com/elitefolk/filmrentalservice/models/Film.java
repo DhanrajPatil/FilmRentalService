@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -14,15 +16,17 @@ import java.util.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "film")
+@EnableJpaAuditing
 public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "film_id")
     private Short id;
+    @Column(nullable = false)
     private String title;
     private String description;
 
-    @Column(columnDefinition = "YEAR")
+    @Column(columnDefinition = "YEAR", nullable = false)
     private Integer releaseYear;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
@@ -41,7 +45,7 @@ public class Film {
     private Rating rating;
 
     private String specialFeatures;
-    @CreationTimestamp
+    @UpdateTimestamp
     private Timestamp lastUpdate;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -57,5 +61,4 @@ public class Film {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     @JsonIgnoreProperties({ "films" })
     private List<Category> categories = new ArrayList<>();
-
 }
