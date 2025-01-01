@@ -1,6 +1,7 @@
 package com.elitefolk.filmrentalservice.controllers;
 
-import com.elitefolk.filmrentalservice.dtos.ActorDto;
+import com.elitefolk.filmrentalservice.dtos.BasicActorDto;
+import com.elitefolk.filmrentalservice.dtos.CompleteActorDto;
 import com.elitefolk.filmrentalservice.models.Actor;
 import com.elitefolk.filmrentalservice.services.ActorService;
 import org.springframework.web.bind.annotation.*;
@@ -18,32 +19,32 @@ public class ActorController {
     }
 
     @GetMapping
-    public List<ActorDto> getActors() {
+    public List<BasicActorDto> getActors() {
         List<Actor> actors = actorService.getAllActors();
-        return ActorDto.fromActors(actors);
+        return (List<BasicActorDto>) BasicActorDto.fromActors(actors);
     }
 
     @GetMapping("/{id}")
-    public ActorDto getActorById(@PathVariable Short id) {
+    public CompleteActorDto getActorById(@PathVariable Short id) {
         Actor actor = actorService.getActorById(id);
-        return ActorDto.fromActor(actor);
+        return CompleteActorDto.fromActor(actor);
     }
 
     @PostMapping
-    public ActorDto saveActor(@RequestBody ActorDto actorDto) {
-        Actor actor = actorDto.toActor();
-        return ActorDto.fromActor(actorService.saveActor(actor));
+    public CompleteActorDto saveActor(@RequestBody BasicActorDto basicActorDto) {
+        Actor actor = basicActorDto.toActor();
+        return CompleteActorDto.fromActor(actorService.saveActor(actor));
     }
 
     @PutMapping("/{id}")
-    public ActorDto replaceActor(@PathVariable Short id, @RequestBody ActorDto actorDto) {
-        Actor actor = actorDto.toActor();
-        return ActorDto.fromActor(actorService.replaceActor(id, actor));
+    public CompleteActorDto replaceActor(@PathVariable Short id, @RequestBody BasicActorDto basicActorDto) {
+        Actor actor = basicActorDto.toActor();
+        return CompleteActorDto.fromActor(actorService.replaceActor(id, actor));
     }
 
     @PatchMapping("/{id}")
-    public ActorDto updateActor(@PathVariable Short id, @RequestBody ActorDto actorDto) {
-        Actor actor = actorDto.toActor();
-        return ActorDto.fromActor(actorService.patchActor(id, actor));
+    public CompleteActorDto updateActor(@PathVariable Short id, @RequestBody BasicActorDto basicActorDto) {
+        Actor actor = basicActorDto.toActor();
+        return CompleteActorDto.fromActor(actorService.patchActor(id, actor));
     }
 }

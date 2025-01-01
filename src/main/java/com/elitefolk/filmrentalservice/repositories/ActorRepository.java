@@ -12,6 +12,7 @@ public interface ActorRepository extends JpaRepository<Actor, Short> {
     List<Actor> findAll();
     List<Actor> findByFirstNameContains(String firstName);
     List<Actor> findByLastNameContains(String lastName);
+    Optional<Actor> findByFirstNameAndLastName(String firstName, String lastName);
     Optional<Actor> findById(Short id);
     <S extends Actor> S save(S entity);
     void deleteById(Short id);

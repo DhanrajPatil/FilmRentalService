@@ -1,10 +1,10 @@
 package com.elitefolk.filmrentalservice.controllers;
 
-import com.elitefolk.filmrentalservice.dtos.FilmDto;
+import com.elitefolk.filmrentalservice.dtos.BasicFilmDto;
+import com.elitefolk.filmrentalservice.dtos.CompleteFilmDto;
 import com.elitefolk.filmrentalservice.dtos.PaginatedResponse;
 import com.elitefolk.filmrentalservice.models.Film;
 import com.elitefolk.filmrentalservice.services.FilmService;
-//import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -22,20 +22,38 @@ public class FilmController {
     }
 
     @GetMapping
-    public PaginatedResponse<FilmDto> getFilms(Pageable pageable) {
+    public PaginatedResponse<BasicFilmDto> getFilms(Pageable pageable) {
         Page<Film> films = filmService.getAllFilms(pageable);
-        Page<FilmDto> pageDtos = films.map(FilmDto::new);
+        Page<BasicFilmDto> pageDtos = films.map(BasicFilmDto::new);
         return new PaginatedResponse<>(pageDtos);
     }
 
     @GetMapping("/rating/{rating}")
-    public List<FilmDto> getFilmsByRating(@PathVariable String rating) {
-        return FilmDto.fromFilmsToDtoList(filmService.getFilmsByRating(rating), false);
+    public List<BasicFilmDto> getFilmsByRating(@PathVariable String rating) {
+        return BasicFilmDto.fromFilms(filmService.getFilmsByRating(rating));
     }
 
     @GetMapping("/{id}")
-    public Film getFilmById(@PathVariable Short id) {
-        return filmService.getFilmById(id);
-        //return new FilmDto(filmService.getFilmById(id), true);
+    public CompleteFilmDto getFilmById(@PathVariable Short id) {
+        //return filmService.getFilmById(id);
+        return new CompleteFilmDto(filmService.getFilmById(id));
+    }
+
+    @PostMapping
+    public CompleteFilmDto saveFilm(@RequestBody CompleteFilmDto filmDto) {
+        Film film = filmDto.toFilm();
+        return new CompleteFilmDto(filmService.saveFilm(film));
+    }
+
+    @PutMapping("/{id}")
+    public CompleteFilmDto updateFilm(@PathVariable Short id, @RequestBody CompleteFilmDto filmDto) {
+        Film film = filmDto.toFilm();
+        return new CompleteFilmDto(filmService.updateFilm(id, film));
+    }
+
+    @PatchMapping("/{id}")
+    public CompleteFilmDto patchFilm(@PathVariable Short id, @RequestBody CompleteFilmDto filmDto) {
+        Film film = filmDto.toFilm();
+        return new CompleteFilmDto(filmService.patchFilm(id, film));
     }
 }

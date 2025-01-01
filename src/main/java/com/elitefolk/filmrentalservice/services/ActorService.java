@@ -14,4 +14,5 @@ public interface ActorService {
     Actor replaceActor(Short id, Actor actor);
     void deleteActor(Short id);
     void deleteActor(Actor actor);
+    List<Actor> fetchOrCreateActors(List<Actor> actors);
 }

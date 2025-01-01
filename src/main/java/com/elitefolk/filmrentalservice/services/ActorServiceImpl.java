@@ -5,6 +5,7 @@ import com.elitefolk.filmrentalservice.models.Actor;
 import com.elitefolk.filmrentalservice.repositories.ActorRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -67,5 +68,25 @@ public class ActorServiceImpl implements ActorService {
     @Override
     public void deleteActor(Actor actor) {
 
+    }
+
+    @Override
+    public List<Actor> fetchOrCreateActors(List<Actor> actors) {
+        List<Actor> persistedActors = new ArrayList<>();
+        for (Actor actor : actors) {
+            Actor persistedActor;
+            if(actor.getId() == null) {
+                persistedActor = actorRepository.findByFirstNameAndLastName(actor.getFirstName(), actor.getLastName())
+                        .orElseGet(() -> actorRepository.save(actor) );
+            } else {
+                persistedActor = actorRepository.findById(actor.getId())
+                        .orElseGet(() -> {
+                            actor.setId(null);
+                            return actorRepository.save(actor);
+                        }); // Save new actor if not present
+            }
+            persistedActors.add(persistedActor);
+        }
+        return persistedActors;
     }
 }
