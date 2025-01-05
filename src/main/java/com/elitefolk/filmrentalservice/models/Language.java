@@ -20,7 +20,7 @@ public class Language {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "language_id")
     private Byte id;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 20)
     private String name;
     @UpdateTimestamp
     private Date lastUpdate;

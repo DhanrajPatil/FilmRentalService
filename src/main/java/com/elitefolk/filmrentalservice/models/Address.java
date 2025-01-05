@@ -19,14 +19,16 @@ public class Address {
     @Column(name = "address_id")
     private Short id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String address;
 
+    @Column(length = 50)
     private String address2;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private String district;
 
+    @Column(nullable = false, length = 30)
     private String postalCode;
 
     @Column(nullable = false)
