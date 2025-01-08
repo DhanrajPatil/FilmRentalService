@@ -7,24 +7,30 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+import java.sql.Timestamp;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "city")
+@Entity(name = "inventory")
 @EnableJpaAuditing
-public class City {
+public class Inventory {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    @Column(name = "city_id")
-    private Short id;
-
-    @Column(name = "city", nullable = false)
-    private String name;
+    @Column(name = "inventory_id")
+    private Integer id;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "country_id")
-    private Country country;
+    @JoinColumn(name = "film_id", nullable = false)
+    private Film film;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store;
+
+    @Enumerated(EnumType.STRING)
+    private RentalStatus rentalStatus;
 
     @UpdateTimestamp
-    private java.sql.Timestamp lastUpdate;
+    private Timestamp lastUpdate;
 }

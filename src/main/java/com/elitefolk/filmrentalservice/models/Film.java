@@ -22,7 +22,7 @@ public class Film {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "film_id")
     private Short id;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String title;
     private String description;
 
@@ -44,6 +44,7 @@ public class Film {
     @Enumerated(EnumType.STRING)
     private Rating rating;
 
+    @Column(length = 100)
     private String specialFeatures;
     @UpdateTimestamp
     private Timestamp lastUpdate;
@@ -51,7 +52,8 @@ public class Film {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "film_actor",
             joinColumns = @JoinColumn(name = "film_id"),
-            inverseJoinColumns = @JoinColumn(name = "actor_id"))
+            inverseJoinColumns = @JoinColumn(name = "actor_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = { "film_id", "actor_id" }))
     @JsonIgnoreProperties({ "movies" })
     private List<Actor> actors = new ArrayList<>();
 

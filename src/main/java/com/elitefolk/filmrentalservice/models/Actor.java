@@ -21,13 +21,16 @@ public class Actor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "actor_id")
     private Short id;
-    @Column(nullable = false)
+
+    @Column(nullable = false, length = 30)
     private String firstName;
-    @Column(nullable = false)
+
+    @Column(nullable = false,length = 30)
     private String lastName;
 
     @ManyToMany(mappedBy = "actors", fetch = FetchType.LAZY)
     private List<Film> movies = new ArrayList<>();
+
     @UpdateTimestamp
     private java.sql.Timestamp lastUpdate;
 }

@@ -22,7 +22,7 @@ public class Category {
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     @Column(name = "category_id")
     private Byte id;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 30)
     private String name;
     @UpdateTimestamp
     private Timestamp lastUpdate;

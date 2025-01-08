@@ -20,7 +20,7 @@ public class Country {
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     @Column(name = "country_id")
     private Short id;
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 50)
     private String country;
     @UpdateTimestamp
     private java.sql.Timestamp lastUpdate;
