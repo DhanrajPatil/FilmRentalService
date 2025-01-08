@@ -64,6 +64,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Page<BasicCustomerDto> getCustomerByNameQuery(String name, Pageable pageable) {
+        if(name == null || name.isEmpty()) {
+            return this.customerRepository.findAll(pageable).map(BasicCustomerDto::new);
+        }
         return customerRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
                 name,
                 name,

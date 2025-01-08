@@ -28,6 +28,12 @@ public class Store {
     @JoinColumn(name = "address_id")
     private Address address;
 
+    @Column(nullable = false)
+    private Double chargesPerDay;
+
+    @Column(nullable = false)
+    private Double penaltyPerDay;
+
     @UpdateTimestamp
     private java.sql.Timestamp lastUpdate;
 
