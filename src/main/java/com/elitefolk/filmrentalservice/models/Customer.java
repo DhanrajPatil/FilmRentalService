@@ -29,7 +29,7 @@ public class Customer {
     @Column(nullable = false, length = 30)
     private String lastName;
 
-    @Column(nullable = false, length = 60)
+    @Column(nullable = false, unique = true, length = 60)
     private String email;
 
     @ManyToOne

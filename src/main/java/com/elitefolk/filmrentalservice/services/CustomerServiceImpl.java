@@ -2,6 +2,7 @@ package com.elitefolk.filmrentalservice.services;
 
 import com.elitefolk.filmrentalservice.dtos.BasicCustomerDto;
 import com.elitefolk.filmrentalservice.exceptions.AddressNotFoundException;
+import com.elitefolk.filmrentalservice.exceptions.CustomerNotFoundException;
 import com.elitefolk.filmrentalservice.exceptions.StoreNotFoundException;
 import com.elitefolk.filmrentalservice.models.Address;
 import com.elitefolk.filmrentalservice.models.Customer;
@@ -11,10 +12,8 @@ import com.elitefolk.filmrentalservice.repositories.CustomerRepository;
 import com.elitefolk.filmrentalservice.repositories.StoreRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.expression.ExpressionException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,12 +33,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public BasicCustomerDto addCustomer(BasicCustomerDto basicCustomerDto) {
         Short addId = basicCustomerDto.getAddressId();
+        Customer cust = BasicCustomerDto.toCustomer(basicCustomerDto);
         Address address = addressRepository.findById(addId)
                 .orElseThrow(() -> new AddressNotFoundException(
                         "Address ot found with " + addId ,
-                        basicCustomerDto.getAddress())
+                        cust.getAddress())
                 );
-        Customer cust = BasicCustomerDto.toCustomer(basicCustomerDto);
         cust.setAddress(address);
         Store str = storeRepository.findById(basicCustomerDto.getStoreId())
                 .orElseThrow(() -> new StoreNotFoundException("Store Not found", basicCustomerDto.getStoreId()));
@@ -67,10 +66,25 @@ public class CustomerServiceImpl implements CustomerService {
         if(name == null || name.isEmpty()) {
             return this.customerRepository.findAll(pageable).map(BasicCustomerDto::new);
         }
+        String[] names = name.split(" ");
+        if(names.length == 2) {
+            return customerRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
+                    names[0],
+                    names[1],
+                    pageable
+            ).map(BasicCustomerDto::new);
+        }
         return customerRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
                 name,
                 name,
                 pageable
         ).map(BasicCustomerDto::new);
+    }
+
+    @Override
+    public BasicCustomerDto getCustomerByEmail(String emailId) {
+        Customer cust = customerRepository.findByEmail(emailId)
+                .orElseThrow( () -> new CustomerNotFoundException("Customer not found", emailId));
+        return new BasicCustomerDto(cust);
     }
 }

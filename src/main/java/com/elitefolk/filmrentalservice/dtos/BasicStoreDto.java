@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -23,7 +22,6 @@ public class BasicStoreDto {
     private String address;
     private String city;
     private String postalCode;
-    private Double chargesPerDay;
     private Double penaltyPerDay;
 
     public BasicStoreDto(Store store) {
@@ -36,11 +34,10 @@ public class BasicStoreDto {
         this.address = address.getAddress();
         this.city = address.getCity().getName();
         this.postalCode = address.getPostalCode();
-        this.chargesPerDay = store.getChargesPerDay();
         this.penaltyPerDay = store.getPenaltyPerDay();
     }
 
-    public Store toModel() {
+    public Store toStore() {
         Store store = new Store();
         store.setId(this.id);
         Address address = new Address();
@@ -49,21 +46,15 @@ public class BasicStoreDto {
         Staff staff = new Staff();
         staff.setId(this.managerId);
         store.setManager(staff);
-        store.setChargesPerDay(this.chargesPerDay) ;
         store.setPenaltyPerDay(this.penaltyPerDay);
         return store;
     }
 
-    public static BasicStoreDto toDto(Store store) {
-        BasicStoreDto dto = new BasicStoreDto(store);
-        return dto;
+    public static BasicStoreDto fromStore(Store store) {
+        return new BasicStoreDto(store);
     }
 
-    public static List<BasicStoreDto> toDtos(List<Store> stores) {
-        List<BasicStoreDto> dtos = new ArrayList<>();
-        for (Store store : stores) {
-            dtos.add(toDto(store));
-        }
-        return dtos;
+    public static List<BasicStoreDto> fromStoreList(List<Store> stores) {
+        return stores.stream().map(BasicStoreDto::new).toList();
     }
 }

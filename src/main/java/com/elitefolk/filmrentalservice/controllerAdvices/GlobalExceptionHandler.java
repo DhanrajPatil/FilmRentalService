@@ -2,11 +2,9 @@ package com.elitefolk.filmrentalservice.controllerAdvices;
 
 import com.elitefolk.filmrentalservice.dtos.BasicFilmDto;
 import com.elitefolk.filmrentalservice.dtos.GlobalErrorDto;
-import com.elitefolk.filmrentalservice.exceptions.ActorNotFoundException;
-import com.elitefolk.filmrentalservice.exceptions.AddressNotFoundException;
-import com.elitefolk.filmrentalservice.exceptions.FilmNotFoundException;
-import com.elitefolk.filmrentalservice.exceptions.StoreNotFoundException;
-import com.elitefolk.filmrentalservice.models.Store;
+import com.elitefolk.filmrentalservice.exceptions.*;
+import com.elitefolk.filmrentalservice.models.Address;
+import com.elitefolk.filmrentalservice.models.Film;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,8 +25,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AddressNotFoundException.class)
-    public ResponseEntity<GlobalErrorDto<String>> handleAddressNotFoundException(AddressNotFoundException e) {
-        GlobalErrorDto<String> errorDto = new GlobalErrorDto<>(e.getMessage(), "NOT FOUND", e.getAddress());
+    public ResponseEntity<GlobalErrorDto<Address>> handleAddressNotFoundException(AddressNotFoundException e) {
+        GlobalErrorDto<Address> errorDto = new GlobalErrorDto<>(e.getMessage(), "NOT FOUND", e.getAddress());
         return ResponseEntity.status(404).body(errorDto);
     }
 
@@ -38,4 +36,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(404).body(errorDto);
     }
 
+    @ExceptionHandler(StaffNotFoundException.class)
+    public ResponseEntity<GlobalErrorDto<Byte>> handleStaffNotFoundException(StaffNotFoundException e) {
+        GlobalErrorDto<Byte> errorDto = new GlobalErrorDto<>(e.getMessage(), "NOT FOUND", e.getStaffId());
+        return ResponseEntity.status(404).body(errorDto);
+    }
+
+    @ExceptionHandler(FilmOutOfStockException.class)
+    public ResponseEntity<GlobalErrorDto<Film>> handleFilmOutOfStockException(FilmOutOfStockException e) {
+        GlobalErrorDto<Film> err = new GlobalErrorDto<>(e.getMessage(), "Out of Stock", e.getFilm());
+        return ResponseEntity.status(500).body(err);
+    }
 }
