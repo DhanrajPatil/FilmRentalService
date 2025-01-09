@@ -12,4 +12,5 @@ public interface CustomerService {
     BasicCustomerDto getCustomerById(Short id);
     List<BasicCustomerDto> getCustomerByFirstNameAndLastName(String firstName, String lastName);
     Page<BasicCustomerDto> getCustomerByNameQuery(String firstName, Pageable pageable);
+    BasicCustomerDto getCustomerByEmail(String emailId);
 }

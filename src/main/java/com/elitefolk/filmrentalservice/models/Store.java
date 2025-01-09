@@ -1,15 +1,14 @@
 package com.elitefolk.filmrentalservice.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "store")
@@ -21,15 +20,12 @@ public class Store {
     private Byte id;
 
     @OneToOne(cascade = jakarta.persistence.CascadeType.PERSIST)
-    @JoinColumn(name = "manager_staff_id")
+    @JoinColumn(name = "manager_staff_id", unique = true)
     private Staff manager;
 
     @OneToOne(cascade = jakarta.persistence.CascadeType.PERSIST)
     @JoinColumn(name = "address_id")
     private Address address;
-
-    @Column(nullable = false)
-    private Double chargesPerDay;
 
     @Column(nullable = false)
     private Double penaltyPerDay;
