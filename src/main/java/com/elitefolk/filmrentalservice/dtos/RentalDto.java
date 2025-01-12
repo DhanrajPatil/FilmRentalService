@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RentalDto {
-    private Integer id;
+    private Integer rentalId;
 
     //Inventory Details
     private Integer inventoryId;
@@ -39,7 +39,7 @@ public class RentalDto {
     private LocalDate agreedReturnDate;
 
     public RentalDto(Rental rental) {
-        this.id = rental.getId();
+        this.rentalId = rental.getId();
 
         Inventory inventory = rental.getInventory();
         this.inventoryId = inventory.getId();
@@ -50,10 +50,10 @@ public class RentalDto {
         this.releaseYear = film.getReleaseYear();
         this.rentalRate = film.getRentalRate();
 
-        Customer cust = rental.getCustomer();
-        this.customerId = cust.getId();
-        this.customerName = cust.getFirstName() + " "  + cust.getLastName();
-        this.customerEmail = cust.getEmail();
+        Customer customer = rental.getCustomer();
+        this.customerId = customer.getId();
+        this.customerName = customer.getFirstName() + " "  + customer.getLastName();
+        this.customerEmail = customer.getEmail();
 
         Staff stf = rental.getStaff();
         this.staffId = stf.getId();
@@ -75,7 +75,7 @@ public class RentalDto {
 
     public Rental toRental() {
         Rental rental = new Rental();
-        rental.setId(this.id);
+        rental.setId(this.rentalId);
         rental.setRentalDate(this.rentalDate);
         rental.setReturnDate(this.returnDate);
         rental.setAgreedReturnDate(this.agreedReturnDate);

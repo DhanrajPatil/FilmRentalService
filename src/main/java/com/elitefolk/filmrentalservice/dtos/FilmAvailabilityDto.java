@@ -1,4 +1,4 @@
-package com.elitefolk.filmrentalservice.models;
+package com.elitefolk.filmrentalservice.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,15 +7,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class InventoryDto {
-    private Integer id;
+@AllArgsConstructor
+public class FilmAvailabilityDto {
     private Short filmId;
     private String title;
     private Integer releaseYear;
     private Double rentalRate;
-
-
-
+    private Byte storeId;
+    private Short availableCopies;
 }

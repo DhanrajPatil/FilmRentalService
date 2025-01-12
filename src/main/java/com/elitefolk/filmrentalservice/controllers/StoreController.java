@@ -21,7 +21,7 @@ public class StoreController {
 
     @GetMapping("/{id}")
     public BasicStoreDto getStoreBYId(@PathVariable Byte id) {
-        return this.storeService.getStoreById(id);
+        return this.storeService.getStoreDtoById(id);
     }
 
     @PostMapping()

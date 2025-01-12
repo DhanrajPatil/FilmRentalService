@@ -1,5 +1,6 @@
 package com.elitefolk.filmrentalservice.models;
 
+import com.elitefolk.filmrentalservice.dtos.FilmAvailabilityDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,31 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Entity(name = "inventory")
 @EnableJpaAuditing
+@SqlResultSetMapping(
+        name = "FilmAvailabilityMapping",
+        classes = @ConstructorResult(
+                targetClass = FilmAvailabilityDto.class,
+                columns = {
+                        @ColumnResult(name = "film_id", type = Short.class),
+                        @ColumnResult(name = "Title", type = String.class),
+                        @ColumnResult(name = "Release_Year", type = Integer.class),
+                        @ColumnResult(name = "Rental_Rate", type = Double.class),
+                        @ColumnResult(name = "Store_ID", type = Byte.class),
+                        @ColumnResult(name = "AvailableCopies", type = Short.class)
+                }
+        )
+)
+@NamedStoredProcedureQuery(
+        name = "Inventory.getFilmsWithInventoryAvailableCount",
+        procedureName = "get_films_with_inventory_available_count",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "filmId", type = Short.class),
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "storeId", type = Byte.class),
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "sizeOfPage", type = Short.class),
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "pageNo", type = Byte.class)
+        },
+        resultSetMappings = "FilmAvailabilityMapping"
+)
 public class Inventory {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)

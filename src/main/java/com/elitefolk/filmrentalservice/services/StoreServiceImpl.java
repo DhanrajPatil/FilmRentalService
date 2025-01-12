@@ -38,10 +38,13 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public BasicStoreDto getStoreById(Byte storeId) {
-        Store str = this.storeRepository.findById(storeId).orElse(null);
-        if (str == null) { return null; }
-        return new BasicStoreDto(str);
+    public BasicStoreDto getStoreDtoById(Byte storeId) {
+        Store str = getStoreById(storeId);
+        return str == null ? null : new BasicStoreDto(str);
+    }
+
+    public Store getStoreById(Byte storeId){
+        return this.storeRepository.findById(storeId).orElse(null);
     }
 
     @Override
